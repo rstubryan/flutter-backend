@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../models/db');
+const db = require("../models/db");
 
 //GET /mahasiswa
-router.get('/', (req, res) => {
-  db.query('SELECT * FROM mahasiswa', (error, results) => {
+router.get("/", (req, res) => {
+  db.query("SELECT * FROM mahasiswa", (error, results) => {
     if (error) {
-      console.error('Error fetching mahasiswa', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      console.error("Error fetching mahasiswa", error);
+      res.status(500).json({ message: "Internal Server Error" });
     } else {
       res.json(results);
     }
@@ -15,17 +15,17 @@ router.get('/', (req, res) => {
 });
 
 //GET /mahasiswa/:nim
-router.get('/:nim', (req, res) => {
+router.get("/:nim", (req, res) => {
   const mahasiswaId = req.params.nim;
   db.query(
-    'SELECT * FROM mahasiswa WHERE nim = ?',
+    "SELECT * FROM mahasiswa WHERE nim = ?",
     [mahasiswaId],
     (error, result) => {
       if (error) {
-        console.error('Error fetching mahasiswa:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        console.error("Error fetching mahasiswa:", error);
+        res.status(500).json({ message: "Internal Server Error" });
       } else if (result.length === 0) {
-        res.status(404).json({ message: 'Mahasiswa not found' });
+        res.status(404).json({ message: "Mahasiswa not found" });
       } else {
         res.json(result[0]);
       }
@@ -34,21 +34,34 @@ router.get('/:nim', (req, res) => {
 });
 
 //PUT /mahasiswa/:nim
-router.put('/:nim', (req, res) => {
+router.put("/:nim", (req, res) => {
   const mahasiswaNim = req.params.nim;
   const { nama, gender, prodi, alamat } = req.body;
   db.query(
-    'UPDATE mahasiswa SET nama = ?, gender = ?, prodi = ?, alamat = ? WHERE nim = ?',
+    "UPDATE mahasiswa SET nama = ?, gender = ?, prodi = ?, alamat = ? WHERE nim = ?",
     [nama, gender, prodi, alamat, mahasiswaNim],
     (error) => {
       if (error) {
-        console.error('Error updating mahasiswa:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        console.error("Error updating mahasiswa:", error);
+        res.status(500).json({ message: "Internal Server Error" });
       } else {
-        res.json('Updating mahasiswa Successfullys');
+        res.json("Updating mahasiswa Successfullys");
       }
     }
   );
+});
+
+//DELETE /mahasiswa/:nim
+router.delete("/:nim", (req, res) => {
+  const mahasiswaNim = req.params.nim;
+  db.query("DELETE FROM mahasiswa WHERE nim = ?", [mahasiswaNim], (error) => {
+    if (error) {
+      console.error("Error deleting mahasiswa:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    } else {
+      res.json("Deleting mahasiswa Successfullys");
+    }
+  });
 });
 
 module.exports = router;

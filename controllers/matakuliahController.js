@@ -50,4 +50,22 @@ router.post("/", (req, res) => {
   );
 });
 
+// PUT /matakuliah/:kode
+router.put("/:kode", (req, res) => {
+  const kodeMatakuliah = req.params.kode;
+  const { matkul, sks } = req.body;
+  db.query(
+    "UPDATE matakuliah SET matkul = ?, sks = ? WHERE kode = ?",
+    [matkul, sks, kodeMatakuliah],
+    (error) => {
+      if (error) {
+        console.error("Error updating matakuliah:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+      } else {
+        res.json({ message: "Matakuliah updated successfully" });
+      }
+    }
+  );
+});
+
 module.exports = router;

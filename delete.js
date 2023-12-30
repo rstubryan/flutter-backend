@@ -1,6 +1,6 @@
-const mahasiswaNim = '20210044';
+const kodeMatakuliah = '10004';
 
-fetch(`http://localhost:3000/mahasiswa/${mahasiswaNim}`, {
+fetch(`http://localhost:3000/matakuliah/${kodeMatakuliah}`, {
     method: 'DELETE',
     headers: {
         'Content-Type': 'application/json'

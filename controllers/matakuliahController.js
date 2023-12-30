@@ -68,4 +68,21 @@ router.put("/:kode", (req, res) => {
   );
 });
 
+// DELETE /matakuliah/:kode
+router.delete("/:kode", (req, res) => {
+  const kodeMatakuliah = req.params.kode;
+  db.query(
+    "DELETE FROM matakuliah WHERE kode = ?",
+    [kodeMatakuliah],
+    (error) => {
+      if (error) {
+        console.error("Error deleting matakuliah:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+      } else {
+        res.json({ message: "Matakuliah deleted successfully" });
+      }
+    }
+  );
+});
+
 module.exports = router;

@@ -1,16 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mahasiswaController = require('./controllers/mahasiswaController');
+const matakuliahController = require('./controllers/matakuliahController');
 
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
 
-//Endpoint untuk mahasiswa
+// Endpoint mahasiswa
 app.use('/mahasiswa', mahasiswaController);
 
-//Jalankan server
+// Endpoint matakuliah
+app.use('/matakuliah', matakuliahController);
+
+// Jalankan server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
